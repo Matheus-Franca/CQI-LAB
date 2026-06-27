@@ -1,0 +1,62 @@
+version: '3.9'
+
+# =============================================
+# CQI-LAB — Docker Compose
+# =============================================
+
+services:
+
+  # --- Banco de Dados PostgreSQL ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: cqilab_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-cqilab}
+      POSTGRES_USER: ${DB_USER:-cqilab_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-cqilab_senha_segura}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/migrations/001_create_tables.sql:/docker-entrypoint-initdb.d/01_tables.sql
+      - ./database/seeds/001_initial_data.sql:/docker-entrypoint-initdb.d/02_seeds.sql
+    networks:
+      - cqilab_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-cqilab_user} -d ${DB_NAME:-cqilab}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- Aplicação Node.js ---
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cqilab_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3000}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-cqilab}
+      DB_USER: ${DB_USER:-cqilab_user}
+      DB_PASSWORD: ${DB_PASSWORD:-cqilab_senha_segura}
+      JWT_SECRET: ${JWT_SECRET:-cqilab_jwt_secret_mude_em_producao_2024}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-8h}
+      DEV_EMAIL: ${DEV_EMAIL:-contato@cqilab.com.br}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - cqilab_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  cqilab_network:
+    driver: bridge
