@@ -4,7 +4,7 @@
  */
 
 // Carrega variáveis de ambiente do arquivo .env
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 
 const express = require('express');
 const path = require('path');
@@ -29,7 +29,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Servir arquivos estáticos do frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
+const frontendPath = path.resolve(__dirname, '../frontend');
+console.log('Servindo frontend de:', frontendPath);
+app.use(express.static(frontendPath));
 
 // =============================================
 // Rotas da API REST
@@ -47,7 +49,8 @@ app.use('/api/contato', require('./routes/contato'));
 // Todas as rotas não-API redirecionam para o index.html
 // =============================================
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  const indexPath = path.resolve(__dirname, '../frontend/index.html');
+  res.sendFile(indexPath);
 });
 
 // =============================================

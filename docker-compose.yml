@@ -8,7 +8,9 @@ services:
 
   # --- Banco de Dados PostgreSQL ---
   postgres:
-    image: postgres:15-alpine
+    image: postgres:16
+    ports:
+      - "5454:5432"
     container_name: cqilab_postgres
     restart: unless-stopped
     environment:
@@ -35,7 +37,7 @@ services:
     container_name: cqilab_app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3010:3000"
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: ${PORT:-3000}

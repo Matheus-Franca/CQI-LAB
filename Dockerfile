@@ -8,11 +8,9 @@ FROM node:18-alpine
 # Diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia os arquivos de dependências
-COPY package*.json ./
-
-# Instala as dependências de produção
-RUN npm ci --only=production
+# Copia o package.json do backend e instala dependências
+COPY backend/package*.json ./backend/
+RUN cd backend && npm install --only=production
 
 # Copia o restante do projeto
 COPY . .

@@ -46,7 +46,7 @@ CREATE TABLE usuarios (
 -- =============================================
 CREATE TABLE tipos_material (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  nome VARCHAR(100) NOT NULL,
+  nome VARCHAR(100) NOT NULL UNIQUE,
   descricao TEXT,
   ativo BOOLEAN DEFAULT TRUE,
   criado_em TIMESTAMP DEFAULT NOW()
@@ -57,8 +57,8 @@ CREATE TABLE tipos_material (
 -- =============================================
 CREATE TABLE tipos_exame (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  nome VARCHAR(200) NOT NULL,
-  codigo VARCHAR(50),
+  nome VARCHAR(200) NOT NULL UNIQUE,
+  codigo VARCHAR(50) UNIQUE,
   descricao TEXT,
   ativo BOOLEAN DEFAULT TRUE,
   criado_em TIMESTAMP DEFAULT NOW()

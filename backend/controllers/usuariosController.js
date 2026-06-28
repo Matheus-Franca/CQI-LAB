@@ -16,11 +16,11 @@ const listar = async (req, res) => {
     let sql = 'SELECT id, nome, email, perfil, ativo, criado_em FROM usuarios WHERE 1=1';
     const params = [];
 
-    if (perfil) {
+    if (perfil && perfil.trim() !== '') {
       params.push(perfil);
       sql += ` AND perfil = $${params.length}`;
     }
-    if (ativo !== undefined) {
+    if (ativo !== undefined && ativo !== '') {
       params.push(ativo === 'true');
       sql += ` AND ativo = $${params.length}`;
     }
