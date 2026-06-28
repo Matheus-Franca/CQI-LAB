@@ -89,29 +89,3 @@ cqi-lab/
 ├── .env.example
 └── README.md
 ```
-
-## 🛠️ Desenvolvimento Local (sem Docker)
-
-### Pré-requisitos
-- Node.js 18+
-- PostgreSQL 14+
-
-### Instalação
-```bash
-# Instale as dependências
-npm install
-
-# Configure o banco de dados
-psql -U postgres -c "CREATE DATABASE cqilab;"
-psql -U postgres -d cqilab -f database/migrations/001_create_tables.sql
-psql -U postgres -d cqilab -f database/seeds/001_initial_data.sql
-
-# Configure o .env
-cp .env.example .env
-
-# Inicie o servidor
-npm run dev
-```
-
-## 📄 Licença
-MIT
