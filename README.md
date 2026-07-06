@@ -6,7 +6,7 @@ Sistema web para laboratório de análises clínicas com controle completo do ci
 
 - **Backend:** Node.js + Express.js
 - **Banco de Dados:** PostgreSQL
-- **Frontend:** HTML + CSS + JavaScript (Vanilla)
+- **Frontend:** HTML + CSS + JavaScript
 - **Autenticação:** JWT (Bearer Token)
 - **Geração de PDF:** PDFKit
 - **Deploy:** Docker Compose
@@ -36,7 +36,7 @@ Aguardando Coleta → Coletada → Em Andamento → Finalizado
 
 ### 1. Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/cqi-lab.git
+git clone https://github.com/Matheus-Franca/CQI-LAB.git
 cd cqi-lab
 ```
 
@@ -53,7 +53,7 @@ docker-compose up -d
 ```
 
 ### 4. Acesse o sistema
-- URL: `http://seu-servidor:3000`
+- URL: `http://localhost:3000`
 - Login padrão Admin: `admin@cqilab.com` / `Admin@123`
 
 ### Parar os containers
