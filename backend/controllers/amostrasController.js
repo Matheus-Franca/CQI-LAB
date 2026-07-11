@@ -45,18 +45,18 @@ const listar = async (req, res) => {
     const params = [];
     const filtros = [];
 
-    // Filtro por perfil: cada usuário vê apenas o que é relevante para ele
-    const perfil = req.usuario.perfil;
-    if (perfil === 'coletador') {
-      params.push(req.usuario.id);
-      filtros.push(`a.coletador_id = $${params.length}`);
-    } else if (perfil === 'tecnico') {
-      params.push(req.usuario.id);
-      filtros.push(`a.tecnico_id = $${params.length}`);
-    } else if (perfil === 'responsavel_tecnico') {
-      params.push(req.usuario.id);
-      filtros.push(`a.responsavel_tecnico_id = $${params.length}`);
-    }
+    // Filtro por perfil: cada usuário vê apenas o que é relevante para ele (ou o que está disponível para sua função)
+const perfil = req.usuario.perfil;
+  if (perfil === 'coletador') {
+    params.push(req.usuario.id);
+    filtros.push(`((a.coletador_id IS NULL OR a.coletador_id = $${params.length}) AND (a.status = 'aguardando_coleta' OR a.status = 'recoleta_solicitada'))`);
+  } else if (perfil === 'tecnico') {
+    params.push(req.usuario.id);
+    filtros.push(`((a.tecnico_id IS NULL OR a.tecnico_id = $${params.length}) AND (a.status = 'coletada' OR a.status = 'em_andamento'))`);
+  } else if (perfil === 'responsavel_tecnico') {
+    params.push(req.usuario.id);
+    filtros.push(`((a.responsavel_tecnico_id IS NULL OR a.responsavel_tecnico_id = $${params.length}) AND a.status = 'em_andamento')`);
+  }
 
     // Filtros externos
     if (paciente) {

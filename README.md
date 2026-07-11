@@ -6,7 +6,7 @@ Sistema web para laboratório de análises clínicas com controle completo do ci
 
 - **Backend:** Node.js + Express.js
 - **Banco de Dados:** PostgreSQL
-- **Frontend:** HTML + CSS + JavaScript (Vanilla)
+- **Frontend:** HTML + CSS + JavaScript
 - **Autenticação:** JWT (Bearer Token)
 - **Geração de PDF:** PDFKit
 - **Deploy:** Docker Compose
